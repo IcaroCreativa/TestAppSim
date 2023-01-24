@@ -36,16 +36,20 @@ async function getNotes(req,res){
     
     
     try {
-        const notes=getDocs(dbInstance)
-            .then((data) => {
-                console.log(data);
-                return res.json({
-                    message: JSON.parse(JSON.stringify(data.docs)),
-                    success: true,
-            })
-        
+
+        const notes = await getDocs(dbInstance);
+        const notesArray = [];
+        notes.forEach((doc) => {
+            notesArray.push(doc.data());
         });
-    } catch (error) {
+        return res.json({
+            message: 'success',
+            success: true,
+            data: notesArray,
+        });
+    }
+      
+     catch (error) {
         // return the error
         return res.json({
             message: new Error(error).message,
@@ -53,3 +57,31 @@ async function getNotes(req,res){
         });
     }
 }
+
+
+async function getNotebyId(req,res){
+    
+    
+    try {
+
+        const notes = await getDocs(dbInstance);
+        const notesArray = [];
+        notes.forEach((doc) => {
+            notesArray.push(doc.data());
+        });
+        return res.json({
+            message: 'success',
+            success: true,
+            data: notesArray,
+        });
+    }
+      
+     catch (error) {
+        // return the error
+        return res.json({
+            message: new Error(error).message,
+            success: false,
+        });
+    }
+}
+
